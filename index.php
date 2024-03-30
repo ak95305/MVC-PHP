@@ -37,8 +37,13 @@
 		echo "</pre>";
 	}
 
+	// Connect DB
+	include base_path("config/db/DBConnection.php");
+	$DB = new DBConnection();
+
 	// URL ROUTING
 	include base_path("controller/SiteController.php");
+	include base_path("models/SiteModel.php");
 
 	$urlPath = isset($_SERVER['PATH_INFO']) && $_SERVER['PATH_INFO'] ? explode("/", $_SERVER['PATH_INFO']) : null;
 	unset($urlPath[0]);

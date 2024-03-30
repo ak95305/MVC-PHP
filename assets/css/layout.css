@@ -28,16 +28,17 @@ a:hover {
 }
 
 .app {
-  height: 100vh;
+  height: calc(100vh - 56px);
 }
 
 /* -------------
 Sidebar
 ----------------*/
 .sidebar {
-  position: absolute;
+  position: fixed;
   width: 14em;
   height: calc(100% - 56px);
+  top: 56px;
   bottom: 0;
   overflow: hidden;
   background-color: #19222a;
@@ -165,4 +166,10 @@ Sidebar Nav
 main{
   width: calc(100% - 14em);
   float: left;
+}
+
+body > header{
+  position: fixed;
+  top: 0;
+  width: 100%;
 }

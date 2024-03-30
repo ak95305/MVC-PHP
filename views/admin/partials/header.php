@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
 	<link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
 	<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="<?= base_url("assets/layout.css") ?>"  type='text/css'>
+	<link rel="stylesheet" href="<?= base_url("assets/css/layout.css") ?>"  type='text/css'>
 	<title>Document</title>
 </head>
 <body>
@@ -35,7 +35,7 @@
 								<a href="<?= base_url("users/add") ?>"><i class="ion-plus"></i>Add</a>
 							</li>
 							<li>
-								<a href="<?= base_url("users/list") ?>"><i class="ion-android-menu"></i>List</a>
+								<a href="<?= base_url("users") ?>"><i class="ion-android-menu"></i>List</a>
 							</li>
 						</ul>
 					</li>
@@ -58,5 +58,4 @@
 		</aside>
 	</section>
 
-	<main>
-		hey
+	<main class="py-3">
