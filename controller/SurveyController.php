@@ -1,70 +1,119 @@
 <?php
 	
-// include(base_path("models/UsersModel.php"));
+include(base_path("models/SurveysModel.php"));
+include(base_path("models/QuestionsModel.php"));
 
 class SurveyController extends SiteController{
-	// public $usersModel;
+	public $surveyModel;
+	public $questionModel;
 
 	function __construct()
 	{
 		parent::__construct();
-		// $this->usersModel = new UsersModel();
+		$this->surveyModel = new SurveyModel();
+		$this->questionModel = new QuestionModel();
 	}
 
-	// public function index()
-	// {
-	// 	$getUsers = $this->usersModel->getListing();
+	public function index()
+	{
+		$getSurveys = $this->surveyModel->getListing();
 
-	// 	$this->adminLayout("users/list", [
-	// 		"users" => $getUsers
-	// 	]);
-	// }
+		$this->adminLayout("surveys/list", [
+			"surveys" => $getSurveys
+		]);
+	}
 
 	public function add()
 	{
 		if(isset($_POST) && $_POST)
 		{
-			$_POST['password'] = md5($_POST['password']);
-			$this->usersModel->create($_POST);
+			$questions = $_POST['question'];
+			unset($_POST['question']);
 
-			header("Location: ".base_url("users"));
+			$insertId = $this->surveyModel->create($_POST);
+
+			if(isset($insertId) && $insertId)
+			{
+				unset($questions['{{key}}']);
+				foreach($questions as $key => $value)
+				{
+					unset($value['ans_id'][0]);
+					$value['question'] = $value['title'];
+					$value['survey_id'] = $insertId;
+
+					if(isset($value['ans_id']) && $value['ans_id'])
+					{
+						$value['frm_option'] = json_encode($value['ans_id']);
+						unset($value['ans_id']);
+					}
+
+					unset($value['title']);
+
+					pr($value);
+					$questionInsertId = $this->questionModel->create($value);
+				}
+			}
+
+			header("Location: ".base_url("survey"));
 			die;
 		}
 
 		$this->adminLayout("surveys/add");
 	}
 
-	// public function delete($id)
-	// {
-	// 	$this->usersModel->remove($id);
+	public function delete($id)
+	{
+		$this->surveyModel->remove($id);
 
-	// 	header("Location: ".base_url("users"));
-	// 	die;
-	// }
+		header("Location: ".base_url("survey"));
+		die;
+	}
 
-	// public function edit($id)
-	// {
-	// 	$user = $this->usersModel->getRow($id);
+	public function edit($id)
+	{
+		if(isset($_POST) && $_POST)
+		{
+			if(isset($_POST['password']) && $_POST['password'] != "")
+			{
+				$_POST['password'] = md5($_POST['password']);
+			}
+			else 
+			{
+				unset($_POST['password']);
+			}
+			$this->usersModel->edit($id, $_POST);
 
-	// 	if(isset($_POST) && $_POST)
-	// 	{
-	// 		if(isset($_POST['password']) && $_POST['password'] != "")
-	// 		{
-	// 			$_POST['password'] = md5($_POST['password']);
-	// 		}
-	// 		else 
-	// 		{
-	// 			unset($_POST['password']);
-	// 		}
-	// 		$this->usersModel->edit($id, $_POST);
+			header("Location: ".base_url("users"));
+			die;
+		}
 
-	// 		header("Location: ".base_url("users"));
-	// 		die;
-	// 	}
+		// Get Survey
+		$survey = $this->surveyModel->getRow($id);
 
-	// 	$this->adminLayout("users/edit", [
-	// 		"user" => $user
-	// 	]);
-	// }
+		// Get Questions
+		$questions = $this->questionModel->getWhere(['questions.*'], ['questions.survey_id' => $id]);
+		
+		if(isset($questions) && $questions && is_array($questions) && count($questions) > 0)
+		{
+			foreach($questions as $k => $v)
+			{
+				if(isset($v['frm_option']) && $v['frm_option'] != "")
+				{
+					$questions[$k]['frm_option'] = json_decode($v['frm_option'], true);
+				}
+			}
+	 		$survey['questions'] = $questions;
+		}
+		else
+		{
+	 		$survey['questions'] = [];
+		}
+
+		// pr($survey['questions']);die;
+
+		$this->adminLayout("surveys/edit", [
+			"survey" => $survey
+		]);
+	}
 }
 

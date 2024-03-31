@@ -1,6 +1,6 @@
 <?php
 
-class UsersModel extends SiteModel{
+class SurveyModel extends SiteModel{
 	function __construct()
 	{
 		parent::__construct();

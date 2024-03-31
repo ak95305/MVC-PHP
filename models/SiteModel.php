@@ -24,9 +24,18 @@ class SiteModel extends DBConnection{
 		try {
 			$this->conn->exec($this->query);
 			$sql = $this->query;
+			// $sth = $this->conn->prepare($this->query);
+			// $sth->execute();
 			$this->query = "";
 
-			echo "New record created successfully";
+			if($this->conn->lastInsertId())
+			{
+				return $this->conn->lastInsertId();
+			}
+			else
+			{
+				echo "Something Went Wrong";
+			}
 
 		} catch(PDOException $e) {
 			echo $sql . "<br>" . $e->getMessage();
@@ -50,12 +59,11 @@ class SiteModel extends DBConnection{
 			$sth->execute();
 
 			$result = $sth->fetch(\PDO::FETCH_ASSOC);
-			$sql = $this->query;
 			$this->query = "";
 			return $result;
 
 		} catch(PDOException $e) {
-			echo $sql . "<br>" . $e->getMessage();
+			echo $this->query . "<br>" . $e->getMessage();
 		}
 	}
 
@@ -66,20 +74,22 @@ class SiteModel extends DBConnection{
 			$sth->execute();
 
 			$result = $sth->fetchAll(\PDO::FETCH_ASSOC);
-			$sql = $this->query;
 			$this->query = "";
 			return $result;
 
 		} catch(PDOException $e) {
-			echo $sql . "<br>" . $e->getMessage();
+			echo $this->query . "<br>" . $e->getMessage();
 		}
 	}
 
 	public function where($data)
 	{
-		$this->query .= "WHERE ";
-		foreach ($data as $field => $value) {
-			$this->query .= "{$field} = {$value} ";
+		if(!empty($data))
+		{
+			$this->query .= "WHERE ";
+			foreach ($data as $field => $value) {
+				$this->query .= "{$field} = {$value} ";
+			}
 		}
 
 		return $this;
@@ -91,13 +101,12 @@ class SiteModel extends DBConnection{
 
 		try {
 			$this->conn->exec($this->query);
-			$sql = $this->query;
 			$this->query = "";
 
 			echo "Record Delete successfully";
 
 		} catch(PDOException $e) {
-			echo $sql . "<br>" . $e->getMessage();
+			echo $this->query . "<br>" . $e->getMessage();
 		}
 	}
 
@@ -123,14 +132,20 @@ class SiteModel extends DBConnection{
 		$this->query = $updateQuery . $this->query;
 		try {
 			$this->conn->exec($this->query);
-			$sql = $this->query;
 			$this->query = "";
 
 			echo "Record Updated successfully";
 
 		} catch(PDOException $e) {
-			echo $sql . "<br>" . $e->getMessage();
+			echo $this->query . "<br>" . $e->getMessage();
 		}
+	}
+
+	public function join($joinTable, $primaryField, $joinOperator, $forignField, $joinType = "LEFT")
+	{
+		// INNER JOIN Customers ON Orders.CustomerID=Customers.CustomerID;
+		$this->query .= "{$joinType} JOIN {$joinTable} ON {$primaryField} {$joinOperator} {$forignField} ";
+		return $this;
 	}
 }
 
