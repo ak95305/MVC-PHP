@@ -3,7 +3,25 @@
 	class SiteController {
 		function __construct()
 		{
+			$this->checkAuth();
+		}
 
+		function checkAuth()
+		{
+			session_start();
+
+			if(isset($_SESSION['user']) && $_SESSION['user'] && isset($_SESSION['user']['id']) && $_SESSION['user']['id'])
+			{
+
+			}
+			else
+			{
+				if($_SERVER['PATH_INFO'] != "/auth/login")
+				{
+					header("Location: ".base_url("auth/login"));
+					die;
+				}
+			}
 		}
 
 		function adminLayout($path = null, $variables = [], $partials = true)

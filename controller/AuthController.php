@@ -31,5 +31,10 @@ class AuthController extends SiteController{
 
 		$this->OuterLayout("users/login");
 	}
+
+	public function logout()
+	{
+		session_destroy();
+	}
 }
 

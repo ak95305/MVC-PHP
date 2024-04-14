@@ -71,7 +71,15 @@
 			unset($urlPath[1]);
 
 			$className = ucfirst($controller)."Controller";
-			include base_path("controller/".$className.".php");
+			if(file_exists("controller/".$className.".php"))
+			{
+				include base_path("controller/".$className.".php");
+			}
+			else
+			{
+				header("Location: ".base_url("welcome"));
+				die;
+			}
 
 			$class = new $className();
 
