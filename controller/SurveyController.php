@@ -81,9 +81,40 @@ class SurveyController extends SiteController{
 			{
 				unset($_POST['password']);
 			}
-			$this->usersModel->edit($id, $_POST);
 
-			header("Location: ".base_url("users"));
+			$questions = $_POST['question'];
+			unset($_POST['question']);
+
+			unset($questions['{{key}}']);
+
+			$oldQuestions = $this->questionModel->getWhere(['questions.id'], ['questions.survey_id' => $id]);
+			$oldQuestions = array_column($oldQuestions, 'id');
+
+			// Delete Old Questions
+			foreach ($oldQuestions as $k1 => $v1) {
+				$this->questionModel->remove($v1);
+			}
+			
+			foreach($questions as $key => $value)
+			{
+				unset($value['ans_id'][0]);
+				$value['question'] = $value['title'];
+				$value['survey_id'] = $id;
+
+				if(isset($value['ans_id']) && $value['ans_id'])
+				{
+					$value['frm_option'] = json_encode($value['ans_id']);
+					unset($value['ans_id']);
+				}
+
+				unset($value['title']);
+
+				$questionInsertId = $this->questionModel->create($value);
+			};
+
+			$this->surveyModel->edit($id, $_POST);
+
+			header("Location: ".base_url("survey"));
 			die;
 		}
 

@@ -3,7 +3,7 @@
 	<div class="title mt-2">
 		<label>Question Title</label>
 		<input type="hidden" class="form-control" name="question[<?= isset($key) && $key != '' && $key >= 0 ? $key : '{{key}}' ?>][type]" value="multiple_select" placeholder="Title">
-		<input type="text" class="form-control" value="<?= isset($value['question']) && $value['question'] ? $value['question'] : '' ?>" name="question[{{key}}][title]" placeholder="Title">
+		<input type="text" class="form-control" value="<?= isset($value['question']) && $value['question'] ? $value['question'] : '' ?>" name="question[<?= isset($key) && $key != '' && $key >= 0 ? $key : '{{key}}' ?>][title]" placeholder="Title">
 	</div>
 
 	<div class="options mt-3">

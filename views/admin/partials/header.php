@@ -46,7 +46,7 @@
 								<a href="<?= base_url("survey/add") ?>"><i class="ion-plus"></i>Add</a>
 							</li>
 							<li>
-								<a href="<?= base_url("survey/list") ?>"><i class="ion-android-menu"></i>List</a>
+								<a href="<?= base_url("survey") ?>"><i class="ion-android-menu"></i>List</a>
 							</li>
 							<li>
 								<a href="<?= base_url("survey/report") ?>"><i class="ion-stats-bars"></i>Report</a>

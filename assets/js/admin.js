@@ -18,13 +18,13 @@ if($("#surveyQuestion"))
 			if(this.questionBoxes[this.questionBoxes.length - 1])
 			{
 				let lastEle = this.questionBoxes[this.questionBoxes.length - 1];
-				if($(lastEle).data("key"))
+				if($(lastEle).length)
 				{
 					this.key = $(lastEle).data("key")
 					this.key++
 				}
 			}
-
+			
 			this.addQuestionBtn.on("click", this.addQuestionHandle)
 			surveyQuestion.addOptionEventListener()
 		},
@@ -38,7 +38,6 @@ if($("#surveyQuestion"))
 		},
 
 		addOptionHandle: function(){
-			console.log($(this).parent(".options"))
 			$(this).parent(".options").find(".opt_clone .row").clone().appendTo($(this).parent(".options").find(".option_list"))
 			surveyQuestion.addOptionEventListener()
 		},
