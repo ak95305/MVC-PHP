@@ -6,7 +6,7 @@
 
 		}
 
-		function frontLayout($path = null, $variables = [], $partials = true)
+		function adminLayout($path = null, $variables = [], $partials = true)
 		{
 			if(file_exists(base_path("views/partials/header.php")) && $partials)
 			{
@@ -15,7 +15,7 @@
 			if(isset($path) && $path)
 			{
 				extract($variables);
-				include base_path("views/".$path);
+				include base_path("views/".$path.".php");
 			}
 			if(file_exists(base_path("views/partials/footer.php")) && $partials)
 			{
@@ -23,20 +23,20 @@
 			}
 		}
 
-		function adminLayout($path = null, $variables = [], $partials = true)
+		function OuterLayout($path = null, $variables = [], $partials = true)
 		{
-			if(file_exists(base_path("views/admin/partials/header.php")) && $partials)
+			if(file_exists(base_path("views/partials/header-outer.php")) && $partials)
 			{
-				include base_path("views/admin/partials/header.php");
+				include base_path("views/partials/header-outer.php");
 			}
 			if(isset($path) && $path)
 			{
 				extract($variables);
-				include base_path("views/admin/".$path.".php");
+				include base_path("views/".$path.".php");
 			}
-			if(file_exists(base_path("views/admin/partials/footer.php")) && $partials)
+			if(file_exists(base_path("views/partials/footer-outer.php")) && $partials)
 			{
-				include base_path("views/admin/partials/footer.php");
+				include base_path("views/partials/footer-outer.php");
 			}
 		}
 	}

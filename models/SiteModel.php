@@ -88,8 +88,18 @@ class SiteModel extends DBConnection{
 		{
 			$this->query .= "WHERE ";
 			foreach ($data as $field => $value) {
-				$this->query .= "{$field} = {$value} ";
+				$this->query .= "{$field} = '{$value}' ";
+
+				if(array_keys($data)[count($data)-1] != $field)
+				{
+					$this->query .= "AND ";
+				}
+				else
+				{
+					$this->query .= " ";
+				}
 			}
+
 		}
 
 		return $this;

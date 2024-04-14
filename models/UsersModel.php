@@ -32,5 +32,10 @@ class UsersModel extends SiteModel{
 	{
 		$this->where(['id' => $id])->update($data);
 	}
+
+	public function getWhere($select = ['*'], $where = [])
+	{
+		return $this->select($select)->where($where)->get_array();
+	}
 }
 

@@ -49,9 +49,9 @@
 							<div class="col-12">
 								<div id="renderQuestion">
 									<div class="question_types d-none">
-										<?php include base_path("views/admin/surveys/question/single_select.php"); ?>
-										<?php include base_path("views/admin/surveys/question/multiple_select.php"); ?>
-										<?php include base_path("views/admin/surveys/question/text_based.php"); ?>
+										<?php include base_path("views/surveys/question/single_select.php"); ?>
+										<?php include base_path("views/surveys/question/multiple_select.php"); ?>
+										<?php include base_path("views/surveys/question/text_based.php"); ?>
 									</div>									
 								</div>
 							</div>
