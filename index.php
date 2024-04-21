@@ -3,16 +3,19 @@
 	// GET ENV FILE VARIBALES
 	$_ENV = parse_ini_file('.env');
 
+	// INCLUDE CONFIG FILR
+	include("./config/config.php");
+
 	// GET BASE URL
 	function base_url($path = null, $print = false)
 	{
 		if($print)
 		{
-			echo $_SERVER["REQUEST_SCHEME"] . "://" . $_SERVER["HTTP_HOST"] . "/" . $_ENV['PROJECT_NAME'] . "/" . ($path ? $path : '');
+			echo $GLOBALS['config']['base_url'] . "/" . ($path ? $path : '');
 		}
 		else
 		{
-			return $_SERVER["REQUEST_SCHEME"] . "://" . $_SERVER["HTTP_HOST"] . "/" . $_ENV['PROJECT_NAME'] . "/" . ($path ? $path : '');
+			return $GLOBALS['config']['base_url'] . "/" . ($path ? $path : '');
 		}
 	}
 
@@ -21,11 +24,11 @@
 	{
 		if($print)
 		{
-			echo $_SERVER["DOCUMENT_ROOT"] . "/" . $_ENV['PROJECT_NAME'] . "/" . ($path ? $path : '');
+			echo $_SERVER["DOCUMENT_ROOT"] . "/" . $GLOBALS['config']['base_path'] . "/" . ($path ? $path : '');
 		}
 		else
 		{
-			return $_SERVER["DOCUMENT_ROOT"] . "/" . $_ENV['PROJECT_NAME'] . "/" . ($path ? $path : '');
+			return $_SERVER["DOCUMENT_ROOT"] . "/" . $GLOBALS['config']['base_path'] . "/" . ($path ? $path : '');
 		}
 	}
 
@@ -46,8 +49,8 @@
 	include base_path("models/SiteModel.php");
 
 	$urlPath = isset($_SERVER['PATH_INFO']) && $_SERVER['PATH_INFO'] ? explode("/", $_SERVER['PATH_INFO']) : null;
-	unset($urlPath[0]);
 
+	unset($urlPath[0]);
 	if(isset($urlPath) && $urlPath && is_array($urlPath) && count($urlPath) > 0)
 	{
 		if(isset($urlPath[1]) && $urlPath[1] && isset($urlPath[2]) && $urlPath[2])
@@ -94,6 +97,11 @@
 		{
 			echo "page don't exists";
 		}
+	}
+	else
+	{
+		header("Location: ".base_url("welcome"));
+		die;
 	}
 
 

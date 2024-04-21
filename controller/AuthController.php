@@ -18,7 +18,7 @@ class AuthController extends SiteController{
 			$user = $this->usersModel->getWhere(['users.*'], ['users.email' => $_POST['email'], 'users.password' => md5($_POST['password'])]);
 			$user = current($user);
 
-			if(isset($user) && count($user) > 0)
+			if(isset($user) && $user && !empty($user) && count($user) > 0)
 			{
 				session_start();
 

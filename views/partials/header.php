@@ -1,3 +1,4 @@
+<?php //session_start() ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,6 +29,7 @@
 			</header>
 			<nav class="sidebar-nav">
 				<ul>
+					<?php if(isset($_SESSION['user']) && $_SESSION['user'] && isset($_SESSION['user']['type']) && $_SESSION['user']['type'] == 1): ?>
 					<li>
 						<a href="#"><i class="ion-ios-person-outline"></i> <span>Users</span></a>
 						<ul class="nav-flyout">
@@ -53,6 +55,7 @@
 							</li>
 						</ul>
 					</li>
+				<?php endif; ?>
 				</ul>
 			</nav>
 		</aside>
