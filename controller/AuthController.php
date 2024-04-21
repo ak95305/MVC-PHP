@@ -24,7 +24,7 @@ class AuthController extends SiteController{
 
 				$_SESSION['user'] = $user;
 
-				header("Location: ".base_url("users"));
+				header("Location: ".base_url("welcome"));
 				die;
 			}
 		}
@@ -35,6 +35,9 @@ class AuthController extends SiteController{
 	public function logout()
 	{
 		session_destroy();
+
+		header("Location: ".base_url("auth/login"));
+		die;
 	}
 }
 

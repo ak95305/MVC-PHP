@@ -12,7 +12,11 @@
 
 			if(isset($_SESSION['user']) && $_SESSION['user'] && isset($_SESSION['user']['id']) && $_SESSION['user']['id'])
 			{
-
+				if($_SERVER['PATH_INFO'] == "/auth/login")
+				{
+					header("Location: ".base_url("welcome"));
+					die;
+				}
 			}
 			else
 			{

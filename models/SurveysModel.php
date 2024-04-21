@@ -15,7 +15,7 @@ class SurveyModel extends SiteModel{
 
 	public function getListing()
 	{
-		return $this->select(['*'])->get_array();
+		return $this->select(['*'])->order_by("id", "desc")->get_array();
 	}
 
 	public function remove($id)

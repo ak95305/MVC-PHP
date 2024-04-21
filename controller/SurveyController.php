@@ -2,16 +2,19 @@
 	
 include(base_path("models/SurveysModel.php"));
 include(base_path("models/QuestionsModel.php"));
+include(base_path("models/AnswersModel.php"));
 
 class SurveyController extends SiteController{
 	public $surveyModel;
 	public $questionModel;
+	public $answersModel;
 
 	function __construct()
 	{
 		parent::__construct();
 		$this->surveyModel = new SurveyModel();
 		$this->questionModel = new QuestionModel();
+		$this->answersModel = new AnswersModel();
 	}
 
 	public function index()
@@ -145,6 +148,83 @@ class SurveyController extends SiteController{
 		$this->adminLayout("surveys/edit", [
 			"survey" => $survey
 		]);
+	}
+
+	public function take($id)
+	{
+		// Get Survey
+		$survey = $this->surveyModel->getRow($id);
+
+		// Get Questions
+		$questions = $this->questionModel->getWhere(['questions.*'], ['questions.survey_id' => $id]);
+		
+		if(isset($questions) && $questions && is_array($questions) && count($questions) > 0)
+		{
+			foreach($questions as $k => $v)
+			{
+				if(isset($v['frm_option']) && $v['frm_option'] != "")
+				{
+					$questions[$k]['frm_option'] = json_decode($v['frm_option'], true);
+				}
+			}
+	 		$survey['questions'] = $questions;
+		}
+		else
+		{
+	 		$survey['questions'] = [];
+		}
+
+		$this->adminLayout("surveys/take/index", [
+			'surveys' => $survey
+		]);
+	}
+
+	public function save()
+	{
+		if(isset($_POST) && $_POST)
+		{
+			$answers = $_POST['answer'];
+			if(isset($answers) && $answers)
+			{
+				foreach($answers as $Sk => $Sv)
+				{
+					$survey_id = $Sk;
+
+					foreach($Sv as $Qk => $Qv)
+					{
+						$question_id = $Qk;
+
+						$answer = json_encode($Qv);
+
+						$answer_data = [
+							'survey_id' => $survey_id,
+							'question_id' => $question_id,
+							'answer' => $answer,
+							'user_id' => isset($_SESSION['user']) && $_SESSION['user'] && isset($_SESSION['user']['id']) && $_SESSION['user']['id'] ? $_SESSION['user']['id'] : null
+						];
+
+						$this->answersModel->insert($answer_data);
+
+					}
+				}
+				
+				header("Location: ".base_url("welcome"));
+				die;
+			}
+		}
+	}
+
+	public function report($id = null)
+	{
+		if(isset($id) && $id)
+		{
+
+		}
+		else
+		{
+			$this->adminLayout("surveys/report/index");
+		}
+
 	}
 }
 

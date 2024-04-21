@@ -157,5 +157,11 @@ class SiteModel extends DBConnection{
 		$this->query .= "{$joinType} JOIN {$joinTable} ON {$primaryField} {$joinOperator} {$forignField} ";
 		return $this;
 	}
+
+	public function order_by($field, $direction)
+	{
+		$this->query .= "ORDER BY {$field} {$direction} ";
+		return $this;
+	}
 }
 

@@ -76,7 +76,7 @@
 
 		<div class="row mt-3">
 			<div class="col-12">
-				<button class="btn btn-sm btn-primary ms-auto d-block">Add Survey</button>
+				<button class="btn btn-sm btn-primary ms-auto d-block">Edit Survey</button>
 			</div>
 		</div>
 	</form>

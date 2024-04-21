@@ -18,6 +18,9 @@
 		    <a class="navbar-brand" href="#">
 		      Survey Flex
 		    </a>
+		    <a href="<?= base_url("auth/logout") ?>" class="btn btn-sm btn-danger">
+		    	Logout
+		    </a>
 		  </div>
 		</nav>
 	</header>

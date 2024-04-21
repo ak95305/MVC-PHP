@@ -1,10 +1,10 @@
 <?php
 
-class UsersModel extends SiteModel{
+class AnswersModel extends SiteModel{
 	function __construct()
 	{
 		parent::__construct();
-		$this->table_name = "users";
+		$this->table_name = "answers";
 	}
 
 	public function create($data)
@@ -31,6 +31,11 @@ class UsersModel extends SiteModel{
 	public function edit($id, $data)
 	{
 		$this->where(['id' => $id])->update($data);
+	}
+
+	public function getWhere($select = ['*'], $where = [])
+	{
+		return $this->select($select)->where($where)->get_array();
 	}
 }
 
